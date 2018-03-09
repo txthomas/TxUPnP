@@ -140,7 +140,7 @@ public class MainActivity extends ListActivity
             public void run() {
                 mItemListAdapter.clear();
                 mItemListAdapter.add(new CustomListItem(
-                        R.drawable.ic_warning,
+                        R.drawable.ic_alert_black_24px,
                         getResources().getString(R.string.info_errorlist_folders),
                         error));
             }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Slick UPnP</string>
+    <string name="app_name">SlickUPnP</string>
     <string name="action_refresh">更新</string>
     <string name="action_settings">設定</string>
     <string name="info_searching">再読み込み中...</string>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SlickUPnP</string>
+    <string name="action_refresh">Aktualisieren</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="info_searching">Aktualisiert...</string>
+    <string name="info_errorlist_folders">Fehler beim Auflisten der Ordner</string>
+    <string name="info_still_loading">Das Gerät wird noch geladen, bitte warten und erneut versuchen</string>
+    <string name="info_could_not_start_activity">Konnte die "Aktivity" nicht starten (Nicht sicher wieso, kontaktiere den Entwickler)</string>
+    <string name="info_no_handler">Keine App zum Anzeigen dieses Dateiformates vorhanden</string>
+    <string name="info_folder">Ordner</string>
+    <string name="info_file">Datei</string>
+    <string name="info_items">Elemente</string>
+    <string name="info_no_wifi">Biite schalte deine WLAN-Verbindung ein</string>
+    <string name="settings_title_devices">Geräte</string>
+    <string name="settings_validate_devices">Geräte überprüfen</string>
+    <string name="settings_validate_devices_description">Führe zusätzliche Überprüfungen durch, bevor ein Gerät angezeigt wird (langsamer)</string>
+    <string name="settings_title_icons">Symbole</string>
+    <string name="settings_show_icons">Zeige Symbole</string>
+    <string name="settings_show_icons_description">Zeige Symbole für Ordner und Elemente</string>
+    <string name="settings_hide_file_icons">Verstecke Symbole für Dateien</string>
+    <string name="settings_hide_file_icons_description">Verstecke Symbole für Dateien</string>
+    <string name="settings_show_device_icons">Zeige Symbole für Geräte</string>
+    <string name="settings_show_device_icons_description">Lade und Zeige geräteeigene Symbole</string>
+    <string name="settings_title_files">Dateien</string>
+    <string name="settings_show_extensions">Zeige Dateierweiterung an</string>
+    <string name="settings_show_extensions_description">Hänge Dateierweiterung an Dateinamen an</string>
+    <string name="settings_about_title">Über</string>
+    <string name="settings_about_version">Version</string>
+    <string name="settings_about_developer">Entwickler</string>
+    <string name="settings_about_developer_name">txthomas</string>
+    <string name="settings_about_website">Website</string>
+    <string name="settings_about_website_url">https://txserver.de</string>
+</resources>

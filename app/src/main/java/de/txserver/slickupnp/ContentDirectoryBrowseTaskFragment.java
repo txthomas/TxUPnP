@@ -122,7 +122,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
                 if (mFolders.isEmpty())
                     mFolders.push(item);
                 else
-                    if (mFolders.peek().getId() != item.getId())
+                    if (!mFolders.peek().getId().equals(item.getId()))
                         mFolders.push(item);
 
                 mService.getControlPoint().execute(
@@ -289,7 +289,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
 
         public void deviceAdded(Device device) {
 
-            DeviceModel deviceModel = new DeviceModel(R.drawable.ic_device, device);
+            DeviceModel deviceModel = new DeviceModel(R.drawable.ic_server_network_black_24px, device);
 
             Service conDir = deviceModel.getContentDirectory();
             if (conDir != null) {
@@ -308,7 +308,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
 
         public void deviceRemoved(Device device) {
             if (mCallbacks != null)
-                mCallbacks.onDeviceRemoved(new DeviceModel(R.drawable.ic_device, device));
+                mCallbacks.onDeviceRemoved(new DeviceModel(R.drawable.ic_server_network_black_24px, device));
         }
     }
 
@@ -316,7 +316,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
         private Service service;
 
         public CustomContentBrowseActionCallback(Service service, String id) {
-            super(service, id, BrowseFlag.DIRECT_CHILDREN, "*", 0, 99999l,
+            super(service, id, BrowseFlag.DIRECT_CHILDREN, "*", 0, 99999L,
                     new SortCriterion(true, "dc:title"));
 
             this.service = service;
@@ -328,7 +328,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
         private ItemModel createItemModel(DIDLObject item) {
 
             ItemModel itemModel = new ItemModel(getResources(),
-                    R.drawable.ic_folder, service, item);
+                    R.drawable.ic_folder_black_24px, service, item);
 
             URI usableIcon = item.getFirstPropertyValue(DIDLObject.Property.UPNP.ICON.class);
             if (usableIcon == null || usableIcon.toString().isEmpty()) {
@@ -338,7 +338,20 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
                 itemModel.setIconUrl(usableIcon.toString());
 
             if (item instanceof Item) {
-                itemModel.setIcon(R.drawable.ic_file);
+                String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(itemModel.getUrl()));
+
+                if (mimeType.contains("video")) {
+                    itemModel.setIcon(R.drawable.ic_file_video_black_24px);
+
+                } else if (mimeType.contains("audio")) {
+                    itemModel.setIcon(R.drawable.ic_file_music_black_24px);
+
+                } else if (mimeType.contains("image")) {
+                    itemModel.setIcon(R.drawable.ic_file_image_black_24px);
+
+                } else {
+                    itemModel.setIcon(R.drawable.ic_file_black_24px);
+                }
 
                 SharedPreferences prefs =
                         PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -393,7 +406,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
         private Service service;
 
         public CustomContentBrowseTestCallback(Device device, Service service) {
-            super(service, "0", BrowseFlag.DIRECT_CHILDREN, "*", 0, 99999l,
+            super(service, "0", BrowseFlag.DIRECT_CHILDREN, "*", 0, 99999L,
                     new SortCriterion(true, "dc:title"));
 
             this.device = device;
@@ -403,7 +416,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
         @Override
         public void received(final ActionInvocation actionInvocation, final DIDLContent didl) {
             if (mCallbacks != null)
-                mCallbacks.onDeviceAdded(new DeviceModel(R.drawable.ic_device, device));
+                mCallbacks.onDeviceAdded(new DeviceModel(R.drawable.ic_server_network_black_24px, device));
         }
 
         @Override

@@ -9,16 +9,12 @@ public class SettingsActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment()).commit();
-    }
+        setContentView(R.layout.activity_settings);
 
-    public static class SettingsFragment extends PreferenceFragment
-    {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.layout.activity_settings);
-        }
+        // das Fragment anzeigen
+        getFragmentManager().beginTransaction()
+                .replace(R.id.settingsContainer, new SettingsFragment())
+                .commit();
+
     }
 }
