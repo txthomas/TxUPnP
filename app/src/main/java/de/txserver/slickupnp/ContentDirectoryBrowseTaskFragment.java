@@ -44,6 +44,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
         void onDisplayDevices();
         void onDisplayDirectories();
         void onDisplayItems(ArrayList<ItemModel> items);
+        void onDisplayAddItems(ArrayList<ItemModel> items);
         void onDisplayItemsError(String error);
         void onDeviceAdded(DeviceModel device);
         void onDeviceRemoved(DeviceModel device);
@@ -100,7 +101,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
 
                 if (conDir != null)
                     mService.getControlPoint().execute(
-                            new CustomContentBrowseActionCallback(conDir, "0"));
+                            new CustomContentBrowseActionCallback(mService, conDir, "0"));
 
                 if (mCallbacks != null)
                     mCallbacks.onDisplayDirectories();
@@ -126,7 +127,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
                         mFolders.push(item);
 
                 mService.getControlPoint().execute(
-                        new CustomContentBrowseActionCallback(item.getService(),
+                        new CustomContentBrowseActionCallback(mService, item.getService(),
                                 item.getId()));
 
             } else {
@@ -162,7 +163,7 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
             ItemModel item = mFolders.pop();
 
             mService.getControlPoint().execute(
-                    new CustomContentBrowseActionCallback(item.getService(),
+                    new CustomContentBrowseActionCallback(mService, item.getService(),
                             item.getContainer().getParentID()));
         }
 
@@ -202,14 +203,14 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
                     return;
 
                 mService.getControlPoint().execute(
-                        new CustomContentBrowseActionCallback(item.getService(),
+                        new CustomContentBrowseActionCallback(mService, item.getService(),
                                 item.getId()));
             } else {
                 if (mCurrentDevice != null) {
                     Service service = mCurrentDevice.getContentDirectory();
                     if (service != null)
                         mService.getControlPoint().execute(
-                            new CustomContentBrowseActionCallback(service, "0"));
+                            new CustomContentBrowseActionCallback(mService, service, "0"));
                 }
             }
         }
@@ -313,13 +314,23 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
     }
 
     private class CustomContentBrowseActionCallback extends Browse {
+        private AndroidUpnpService androidUpnpService;
         private Service service;
+        private String id;
+        private long firstResult;
 
-        public CustomContentBrowseActionCallback(Service service, String id) {
-            super(service, id, BrowseFlag.DIRECT_CHILDREN, "*", 0, 99999L,
+        public CustomContentBrowseActionCallback(AndroidUpnpService androidUpnpService, Service service, String id) {
+            this(androidUpnpService, service, id, 0L);
+        }
+
+        public CustomContentBrowseActionCallback(AndroidUpnpService androidUpnpService, Service service, String id, long firstResult) {
+            super(service, id, BrowseFlag.DIRECT_CHILDREN, "*", firstResult, 99999L,
                     new SortCriterion(true, "dc:title"));
 
+            this.androidUpnpService = androidUpnpService;
             this.service = service;
+            this.id = id;
+            this.firstResult = firstResult;
 
             if (mCallbacks != null)
                 mCallbacks.onDisplayDirectories();
@@ -370,6 +381,8 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
         public void received(final ActionInvocation actionInvocation, final DIDLContent didl) {
 
             ArrayList<ItemModel> items = new ArrayList<ItemModel>();
+            Long totalMatches;
+            Long numberReturned;
 
             try {
                 for (Container childContainer : didl.getContainers())
@@ -378,8 +391,27 @@ public class ContentDirectoryBrowseTaskFragment extends Fragment {
                 for (Item childItem : didl.getItems())
                     items.add(createItemModel(childItem));
 
-                if (mCallbacks != null)
-                    mCallbacks.onDisplayItems(items);
+                totalMatches = Long.parseLong(actionInvocation.getOutput("TotalMatches").toString());
+                numberReturned = Long.parseLong(actionInvocation.getOutput("NumberReturned").toString());
+
+                if (firstResult + items.size() < totalMatches) {
+
+                    androidUpnpService.getControlPoint().execute(
+                            new CustomContentBrowseActionCallback(androidUpnpService, service,
+                                    id, firstResult + items.size()));
+
+                    if (mCallbacks != null) {
+                        if (firstResult == 0) {
+                            mCallbacks.onDisplayItems(items);
+                        } else {
+                            mCallbacks.onDisplayAddItems(items);
+                        }
+                    }
+                } else {
+
+                    if (mCallbacks != null)
+                        mCallbacks.onDisplayItems(items);
+                }
 
             } catch (Exception ex) {
                 actionInvocation.setFailure(new ActionException(

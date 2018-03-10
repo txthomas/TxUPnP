@@ -13,14 +13,16 @@ import android.widget.TextView;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
+import java.util.ArrayList;
+
 public class CustomListAdapter extends ArrayAdapter<CustomListItem>
 {
     private final int layout;
     private Context context;
 
-    public CustomListAdapter(Context context)
+    public CustomListAdapter(Context context, ArrayList<CustomListItem> items)
     {
-        super(context, 0);
+        super(context, 0, items);
         this.layout = R.layout.list;
         this.context = context;
     }

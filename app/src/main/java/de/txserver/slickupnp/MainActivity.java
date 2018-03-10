@@ -25,7 +25,9 @@ public class MainActivity extends ListActivity
                           SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ContentDirectoryBrowseTaskFragment mFragment;
+    private ArrayList<CustomListItem> mDeviceList;
     private ArrayAdapter<CustomListItem> mDeviceListAdapter;
+    private ArrayList<CustomListItem> mItemList;
     private ArrayAdapter<CustomListItem> mItemListAdapter;
 
     @Override
@@ -36,8 +38,11 @@ public class MainActivity extends ListActivity
         FragmentManager fragmentManager = getFragmentManager();
         mFragment = (ContentDirectoryBrowseTaskFragment)fragmentManager.findFragmentByTag("task");
 
-        mDeviceListAdapter = new CustomListAdapter(this);
-        mItemListAdapter = new CustomListAdapter(this);
+        mDeviceList = new ArrayList<CustomListItem>();
+        mDeviceListAdapter = new CustomListAdapter(this, mDeviceList);
+
+        mItemList = new ArrayList<CustomListItem>();
+        mItemListAdapter = new CustomListAdapter(this, mItemList);
 
         setListAdapter(mDeviceListAdapter);
 
@@ -106,6 +111,7 @@ public class MainActivity extends ListActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mDeviceListAdapter.clear();
                 setListAdapter(mDeviceListAdapter);
             }
         });
@@ -116,6 +122,7 @@ public class MainActivity extends ListActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mItemList.clear();
                 mItemListAdapter.clear();
                 setListAdapter(mItemListAdapter);
             }
@@ -127,8 +134,20 @@ public class MainActivity extends ListActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mItemListAdapter.clear();
-                mItemListAdapter.addAll(items);
+                mItemList.clear();
+                mItemList.addAll(items);
+                mItemListAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void onDisplayAddItems(final ArrayList<ItemModel> items) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mItemList.addAll(items);
+                mItemListAdapter.notifyDataSetChanged();
             }
         });
     }

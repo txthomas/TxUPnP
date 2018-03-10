@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:text="@string/info_no_wifi"
             android:gravity="center"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:visibility="gone"/>
 
 </FrameLayout>
