@@ -1,4 +1,4 @@
-package de.txserver.slickupnp;
+package de.txserver.slickupnp.helper;
 
 public class CustomListItem {
 

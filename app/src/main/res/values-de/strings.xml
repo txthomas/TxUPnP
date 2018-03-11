@@ -3,6 +3,17 @@
     <string name="app_name">SlickUPnP</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="action_settings">Einstellungen</string>
+
+    <string name="msg_icon">Bild</string>
+    <string name="drawer_open">Öffnen</string>
+    <string name="drawer_close">Schließen</string>
+
+    <string name="menu_title">Menü</string>
+    <string name="menuItem_settings">Einstellungen</string>
+    <string name="menuItemText_settings">Passe die Einstellungen an</string>
+    <string name="menuItem_about">Über</string>
+    <string name="menuItemText_about">Alles über TxPush</string>
+
     <string name="info_searching">Aktualisiert...</string>
     <string name="info_errorlist_folders">Fehler beim Auflisten der Ordner</string>
     <string name="info_still_loading">Das Gerät wird noch geladen, bitte warten und erneut versuchen</string>
@@ -12,6 +23,7 @@
     <string name="info_file">Datei</string>
     <string name="info_items">Elemente</string>
     <string name="info_no_wifi">Biite schalte deine WLAN-Verbindung ein</string>
+
     <string name="settings_title_devices">Geräte</string>
     <string name="settings_validate_devices">Geräte überprüfen</string>
     <string name="settings_validate_devices_description">Führe zusätzliche Überprüfungen durch, bevor ein Gerät angezeigt wird (langsamer)</string>
@@ -29,6 +41,6 @@
     <string name="settings_about_version">Version</string>
     <string name="settings_about_developer">Entwickler</string>
     <string name="settings_about_developer_name">txthomas</string>
-    <string name="settings_about_website">Website</string>
+    <string name="settings_about_website">Webseite</string>
     <string name="settings_about_website_url">https://txserver.de</string>
 </resources>

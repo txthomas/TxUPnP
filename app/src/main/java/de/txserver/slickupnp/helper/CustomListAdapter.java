@@ -1,4 +1,4 @@
-package de.txserver.slickupnp;
+package de.txserver.slickupnp.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
+
+import de.txserver.slickupnp.R;
 
 public class CustomListAdapter extends ArrayAdapter<CustomListItem>
 {
@@ -56,6 +58,8 @@ public class CustomListAdapter extends ArrayAdapter<CustomListItem>
 
                 if (iconUrl != null && prefs.getBoolean("settings_show_device_icons", true)) {
                     UrlImageViewHelper.setUrlDrawable(viewHolder.imageView, iconUrl, entry.getIcon());
+                    viewHolder.imageView.setImageTintList(null);
+                    viewHolder.imageView.setImageTintMode(null);
                 } else {
                     viewHolder.imageView.setImageResource(entry.getIcon());
                 }

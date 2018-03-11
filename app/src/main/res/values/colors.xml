@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#449A2F</color>
+    <color name="colorPrimaryDark">#2B7D16</color>
+    <color name="colorAccent">#538eaf</color>
+
+    <color name="actionBarBackground">#449A2F</color>
+    <color name="actionBarBTitle">#ffffff</color>
+
+    <color name="connectionIndicatorWaiting">#d2a51f</color>
+    <color name="connectionIndicatorSuccess">#1bba3a</color>
+    <color name="connectionIndicatorError">#ca241e</color>
+
+</resources>

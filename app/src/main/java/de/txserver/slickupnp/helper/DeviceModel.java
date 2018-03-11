@@ -1,4 +1,4 @@
-package de.txserver.slickupnp;
+package de.txserver.slickupnp.helper;
 
 import org.fourthline.cling.model.meta.Device;
 import org.fourthline.cling.model.meta.DeviceDetails;
