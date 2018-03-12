@@ -25,7 +25,7 @@ public class CustomListAdapter extends ArrayAdapter<CustomListItem>
     public CustomListAdapter(Context context, ArrayList<CustomListItem> items)
     {
         super(context, 0, items);
-        this.layout = R.layout.list;
+        this.layout = R.layout.list_item;
         this.context = context;
     }
 
