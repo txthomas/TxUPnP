@@ -20,6 +20,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         String appVersionText = SlickUPnP.getInstance().getVersionName() + " (build " + SlickUPnP.getInstance().getVersionCode() + ")";
         EditTextPreference aboutVersionText =  (EditTextPreference) findPreference("about_version");
-        aboutVersionText.setSummary(SlickUPnP.getInstance().getSharedPref().getString("about_version","appVersionText"));
+        aboutVersionText.setSummary(SlickUPnP.getInstance().getSharedPref().getString("about_version", appVersionText));
     }
 }
