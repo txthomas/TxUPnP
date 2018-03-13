@@ -11,8 +11,14 @@
     <string name="menu_title">Menü</string>
     <string name="menuItem_settings">Einstellungen</string>
     <string name="menuItemText_settings">Passe die Einstellungen an</string>
+
     <string name="menuItem_about">Über</string>
     <string name="menuItemText_about">Alles über TxPush</string>
+
+    <string name="about_versionHeadline">Versionsinformationen:</string>
+    <string name="about_version">Version</string>
+    <string name="about_developer">Entwickler</string>
+    <string name="about_website">Webseite</string>
 
     <string name="info_searching">Aktualisiert...</string>
     <string name="info_errorlist_folders">Fehler beim Auflisten der Ordner</string>
@@ -37,10 +43,4 @@
     <string name="settings_title_files">Dateien</string>
     <string name="settings_show_extensions">Zeige Dateierweiterung an</string>
     <string name="settings_show_extensions_description">Hänge Dateierweiterung an Dateinamen an</string>
-    <string name="settings_about_title">Über</string>
-    <string name="settings_about_version">Version</string>
-    <string name="settings_about_developer">Entwickler</string>
-    <string name="settings_about_developer_name">txthomas</string>
-    <string name="settings_about_website">Webseite</string>
-    <string name="settings_about_website_url">https://txserver.de</string>
 </resources>

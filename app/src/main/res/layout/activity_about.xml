@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/myToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        style="@style/Widget.MyApp.Toolbar.Solid" />
+
+    <TextView
+        android:id="@+id/headVersion_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:textSize="16sp"
+        android:text="@string/about_versionHeadline"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/aboutVersion_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/aboutDeveloper_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/aboutWebsite_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_marginTop="5dp" />
+
+</LinearLayout>

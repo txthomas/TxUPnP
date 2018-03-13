@@ -13,8 +13,16 @@
     <string name="menu_title">Menu</string>
     <string name="menuItem_settings">Preferences</string>
     <string name="menuItemText_settings">Customize your preferences</string>
+
     <string name="menuItem_about">About</string>
     <string name="menuItemText_about">All about TxPush</string>
+
+    <string name="about_versionHeadline">Version information:</string>
+    <string name="about_version">Version</string>
+    <string name="about_developer">Developer</string>
+    <string name="about_developer_name" translatable="false">txthomas</string>
+    <string name="about_website">Website</string>
+    <string name="about_website_url" translatable="false">https://txserver.de</string>
 
     <string name="info_searching">Reloading...</string>
     <string name="info_errorlist_folders">Error while listening folders</string>
@@ -39,10 +47,4 @@
     <string name="settings_title_files">Files</string>
     <string name="settings_show_extensions">Display file extensions</string>
     <string name="settings_show_extensions_description">Append extensions to file names</string>
-    <string name="settings_about_title">About</string>
-    <string name="settings_about_version">Version</string>
-    <string name="settings_about_developer">Developer</string>
-    <string name="settings_about_developer_name">txthomas</string>
-    <string name="settings_about_website">Website</string>
-    <string name="settings_about_website_url">https://txserver.de</string>
 </resources>

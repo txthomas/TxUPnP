@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 

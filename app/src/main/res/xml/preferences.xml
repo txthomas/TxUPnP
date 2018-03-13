@@ -47,26 +47,20 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/settings_about_title">
+    <PreferenceCategory android:title="@string/menuItem_about">
 
         <EditTextPreference
             android:key="about_version"
-            android:title="@string/settings_about_version"
-            android:summary="@string/app_version"
-            android:enabled="false" />
-
-        <EditTextPreference
-            android:key="about_developer"
-            android:title="@string/settings_about_developer"
-            android:summary="@string/settings_about_developer_name"
+            android:title="@string/about_version"
+            android:summary="@string/placeholder"
             android:enabled="false" />
 
         <PreferenceScreen
-            android:title="@string/settings_about_website"
-            android:summary="@string/settings_about_website_url">
+            android:title="@string/about_website"
+            android:summary="@string/about_website_url">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/settings_about_website_url" />
+                android:data="@string/about_website_url" />
         </PreferenceScreen>
 
     </PreferenceCategory>

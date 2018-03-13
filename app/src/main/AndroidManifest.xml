@@ -29,6 +29,10 @@
 
         </activity>
 
+        <activity android:name=".activity.AboutActivity" android:parentActivityName=".activity.MainActivity">
+
+        </activity>
+
         <service android:name="org.fourthline.cling.android.AndroidUpnpServiceImpl" />
 
     </application>
