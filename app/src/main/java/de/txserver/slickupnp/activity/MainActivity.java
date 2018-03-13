@@ -214,6 +214,10 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.closeDrawer(drawerPane);
     }
 
+    private void unsetListSelection() {
+        listView.setItemChecked(-1, true);
+    }
+
     @Override
     public void onBackPressed() {
         if (contentDirectoryBrowseHandler.goBack())
@@ -225,6 +229,7 @@ public class MainActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                unsetListSelection();
                 mDeviceListAdapter.clear();
                 listView.setAdapter(mDeviceListAdapter);
             }
@@ -236,6 +241,7 @@ public class MainActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                unsetListSelection();
                 mItemList.clear();
                 mItemListAdapter.clear();
                 listView.setAdapter(mItemListAdapter);
@@ -248,6 +254,7 @@ public class MainActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                unsetListSelection();
                 mItemList.clear();
                 mItemList.addAll(items);
                 mItemListAdapter.notifyDataSetChanged();

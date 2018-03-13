@@ -3,9 +3,14 @@
     <color name="colorPrimary">#449A2F</color>
     <color name="colorPrimaryDark">#2B7D16</color>
     <color name="colorAccent">#538eaf</color>
+    <color name="colorAccentLight">#71c1ed</color>
 
     <color name="actionBarBackground">#449A2F</color>
     <color name="actionBarBTitle">#ffffff</color>
+
+    <color name="listItemActivated">#71c1ed</color>
+    <color name="listItemFocused">#71c1ed</color>
+    <color name="listItemPressed">#71c1ed</color>
 
     <color name="connectionIndicatorWaiting">#d2a51f</color>
     <color name="connectionIndicatorSuccess">#1bba3a</color>
