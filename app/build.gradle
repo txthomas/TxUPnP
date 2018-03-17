@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "de.txserver.slickupnp"
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 26
         versionCode 18031703
         versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
