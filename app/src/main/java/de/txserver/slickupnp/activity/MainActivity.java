@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         navigationItemArrayList = new ArrayList<>();
         navigationItemArrayList.add(new NavigationItem(getResources().getString(R.string.menuItem_settings), getResources().getString(R.string.menuItemText_settings), R.drawable.ic_settings_black_24px, R.layout.activity_settings));
         navigationItemArrayList.add(new NavigationItem(getResources().getString(R.string.menuItem_about), getResources().getString(R.string.menuItemText_about), R.drawable.ic_info_outline_black_24px, R.layout.activity_about));
+        navigationItemArrayList.add(new NavigationItem(getResources().getString(R.string.menuItem_exit), getResources().getString(R.string.menuItemText_exit), R.drawable.ic_exit_to_app_black_24px, R.layout.activity_main));
 
         // Populate the Navigtion Drawer with options
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
@@ -216,6 +217,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.layout.activity_about:
                 intent = new Intent(this, AboutActivity.class);
+                break;
+            case R.layout.activity_main:
+                this.finish();
                 break;
         }
 

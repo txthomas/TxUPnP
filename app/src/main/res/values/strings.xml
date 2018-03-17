@@ -15,7 +15,10 @@
     <string name="menuItemText_settings">Customize your preferences</string>
 
     <string name="menuItem_about">About</string>
-    <string name="menuItemText_about">All about TxPush</string>
+    <string name="menuItemText_about">All about SlickUPnP</string>
+
+    <string name="menuItem_exit">Exit</string>
+    <string name="menuItemText_exit">Exit the App</string>
 
     <string name="about_versionHeadline">Version information:</string>
     <string name="about_version">Version</string>

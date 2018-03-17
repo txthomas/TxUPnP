@@ -15,6 +15,9 @@
     <string name="menuItem_about">Über</string>
     <string name="menuItemText_about">Alles über TxPush</string>
 
+    <string name="menuItem_exit">Beenden</string>
+    <string name="menuItemText_exit">Beende die App</string>
+
     <string name="about_versionHeadline">Versionsinformationen:</string>
     <string name="about_version">Version</string>
     <string name="about_developer">Entwickler</string>
