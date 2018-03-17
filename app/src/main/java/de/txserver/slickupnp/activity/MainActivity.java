@@ -9,6 +9,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
     private RelativeLayout drawerPane;
     private ActionBarDrawerToggle drawerToggle;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ListView listView;
 
@@ -107,6 +109,17 @@ public class MainActivity extends AppCompatActivity
 
         drawerLayout.addDrawerListener(drawerToggle);
 
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refreshList();
+                    }
+                }
+        );
+
+
         mDeviceList = new ArrayList<CustomListItem>();
         mDeviceListAdapter = new CustomListAdapter(this, mDeviceList);
 
@@ -120,6 +133,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onItemClick (AdapterView < ? > adapter, View v,int position, long arg3){
+                setShowRefreshing(true);
                 contentDirectoryBrowseHandler.navigateTo(adapter.getItemAtPosition(position));
             }
         });
@@ -146,15 +160,15 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-        @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         } else {
             switch (item.getItemId()) {
                 case R.id.action_refresh:
-                    Toast.makeText(this, R.string.info_searching, Toast.LENGTH_SHORT).show();
-                    contentDirectoryBrowseHandler.refreshCurrent();
+//                    Toast.makeText(this, R.string.info_searching, Toast.LENGTH_SHORT).show();
+                    refreshList();
                     break;
             }
         }
@@ -179,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        contentDirectoryBrowseHandler.refreshCurrent();
+        refreshList();
     }
 
     private void setActivityTitle() {
@@ -218,6 +232,21 @@ public class MainActivity extends AppCompatActivity
         listView.setItemChecked(-1, true);
     }
 
+    private void refreshList() {
+        setShowRefreshing(true);
+        contentDirectoryBrowseHandler.refreshCurrent();
+    }
+
+    @Override
+    public void setShowRefreshing(final boolean show) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(show);
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         if (contentDirectoryBrowseHandler.goBack())
@@ -232,6 +261,7 @@ public class MainActivity extends AppCompatActivity
                 unsetListSelection();
                 mDeviceListAdapter.clear();
                 listView.setAdapter(mDeviceListAdapter);
+                setShowRefreshing(false);
             }
         });
     }
@@ -245,6 +275,7 @@ public class MainActivity extends AppCompatActivity
                 mItemList.clear();
                 mItemListAdapter.clear();
                 listView.setAdapter(mItemListAdapter);
+                setShowRefreshing(false);
             }
         });
     }

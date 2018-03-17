@@ -117,6 +117,8 @@ public class CustomContentBrowseActionCallback extends Browse {
                                 id, firstResult + items.size()));
 
 
+            } else {
+                callbacks.setShowRefreshing(false);
             }
 
             if (firstResult == 0) {
@@ -141,5 +143,6 @@ public class CustomContentBrowseActionCallback extends Browse {
     @Override
     public void failure(ActionInvocation invocation, UpnpResponse response, String s) {
         callbacks.onDisplayItemsError(createDefaultFailureMessage(invocation, response));
+        callbacks.setShowRefreshing(false);
     }
 }

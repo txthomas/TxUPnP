@@ -25,12 +25,19 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             style="@style/Widget.MyApp.Toolbar.Solid" />
 
-        <ListView
-            android:id="@+id/list"
-            android:choiceMode="singleChoice"
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fastScrollEnabled="true"/>
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list"
+                android:choiceMode="singleChoice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+<!--                android:fastScrollEnabled="true"/>  -->
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <ImageView
             android:id="@+id/empty"
@@ -48,7 +55,6 @@
             android:gravity="center"
             android:textSize="24sp"
             android:visibility="gone"/>
-
     </LinearLayout>
 
     <!-- The navigation drawer -->
@@ -88,7 +94,6 @@
                 android:text="@string/app_name"
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
-
         </RelativeLayout>
 
         <!-- List of Actions (pages) -->
@@ -99,7 +104,5 @@
             android:layout_below="@+id/profileBox"
             android:choiceMode="singleChoice"
             android:background="#ffffff" />
-
     </RelativeLayout>
-
 </android.support.v4.widget.DrawerLayout>

@@ -7,6 +7,7 @@ import de.txserver.slickupnp.helper.ItemModel;
 
 public interface ContentDirectoryBrowseCallbacks {
 
+    void setShowRefreshing(boolean show);
     void onDisplayDevices();
     void onDisplayDirectories();
     void onDisplayItems(ArrayList<ItemModel> items);

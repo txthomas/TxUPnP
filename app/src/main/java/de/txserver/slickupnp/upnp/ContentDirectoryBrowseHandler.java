@@ -80,6 +80,7 @@ public class ContentDirectoryBrowseHandler {
                                 item.getId()));
 
             } else {
+                mainActivity.setShowRefreshing(false);
                 try {
                     Uri uri = Uri.parse(item.getUrl());
                     MimeTypeMap mime = MimeTypeMap.getSingleton();
