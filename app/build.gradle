@@ -13,7 +13,7 @@ android {
         applicationId "de.txserver.slickupnp"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 18042401
+        versionCode 18042402
         versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

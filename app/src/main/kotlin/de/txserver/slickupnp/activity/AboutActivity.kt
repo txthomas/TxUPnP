@@ -30,16 +30,12 @@ class AboutActivity : AppCompatActivity() {
         setSupportActionBar(myToolbar)
 
         actionBar = supportActionBar
-        if (actionBar != null) {
-
-            actionBar!!.setDisplayHomeAsUpEnabled(true)
-            actionBar!!.setHomeButtonEnabled(true)
-        }
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeButtonEnabled(true)
 
         setActivityTitle()
 
-        val appVersionText = resources.getString(R.string.app_name) + ": " + (SlickUPnP.instance?.versionName ?: "NaN") + " (build " + (SlickUPnP.instance?.versionCode
-                ?: "NaN") + ")"
+        val appVersionText = resources.getString(R.string.app_name) + ": " + SlickUPnP.instance.versionName + " (build " + SlickUPnP.instance.versionCode + ")"
         aboutVersionTextView = findViewById(R.id.aboutVersion_text) as TextView
         aboutVersionTextView!!.text = appVersionText
 

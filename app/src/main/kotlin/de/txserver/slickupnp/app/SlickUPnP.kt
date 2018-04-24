@@ -16,6 +16,10 @@ class SlickUPnP : Application() {
 
     private var sharedPref: SharedPreferences? = null
 
+    init {
+        instance = this
+    }
+
     val versionCode: Int
         get() {
 
@@ -56,7 +60,6 @@ class SlickUPnP : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
 
         registerActivityLifecycleCallbacks(ApplicationLifecycleManager())
 
@@ -70,7 +73,7 @@ class SlickUPnP : Application() {
 
     companion object {
         @get:Synchronized
-        var instance: SlickUPnP? = null
+        lateinit var instance: SlickUPnP
             private set
     }
 }

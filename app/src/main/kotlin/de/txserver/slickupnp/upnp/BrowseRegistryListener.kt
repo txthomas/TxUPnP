@@ -23,7 +23,7 @@ class BrowseRegistryListener(private val context: Context, private val callbacks
     private val prefs: SharedPreferences
 
     init {
-        prefs = SlickUPnP.instance?.getSharedPref() ?: PreferenceManager.getDefaultSharedPreferences(context)
+        prefs = SlickUPnP.instance.getSharedPref()
     }
 
     override fun remoteDeviceDiscoveryStarted(registry: Registry?, device: RemoteDevice?) {

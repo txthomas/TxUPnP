@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -31,6 +30,7 @@ import de.txserver.slickupnp.helper.DrawerListAdapter
 import de.txserver.slickupnp.helper.NavigationItem
 import de.txserver.slickupnp.upnp.ContentDirectoryBrowseCallbacks
 import de.txserver.slickupnp.R
+import de.txserver.slickupnp.app.SlickUPnP
 import de.txserver.slickupnp.helper.CustomListAdapter
 import de.txserver.slickupnp.helper.CustomListItem
 import de.txserver.slickupnp.helper.DeviceModel
@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
                 val state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                         WifiManager.WIFI_STATE_UNKNOWN)
 
-                val wifi_warning = findViewById(R.id.wifi_warning) as TextView
+                val wifiWarning = findViewById(R.id.wifi_warning) as TextView
 
                 when (state) {
                     WifiManager.WIFI_STATE_ENABLED -> {
-                        wifi_warning.visibility = View.GONE
+                        wifiWarning.visibility = View.GONE
 
                         contentDirectoryBrowseHandler.let {
                             it.refreshDevices()
@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
                         }
                     }
                     WifiManager.WIFI_STATE_DISABLED -> {
-                        wifi_warning.visibility = View.VISIBLE
+                        wifiWarning.visibility = View.VISIBLE
                         mDeviceListAdapter.clear()
                         mItemListAdapter.clear()
                     }
-                    WifiManager.WIFI_STATE_UNKNOWN -> wifi_warning.visibility = View.VISIBLE
+                    WifiManager.WIFI_STATE_UNKNOWN -> wifiWarning.visibility = View.VISIBLE
                 }
             }
         }
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
             contentDirectoryBrowseHandler.bindServiceConnection()
         }
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val prefs = SlickUPnP.instance.getSharedPref()
         prefs.registerOnSharedPreferenceChangeListener(this)
 
         val filter = IntentFilter()
@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle!!.onOptionsItemSelected(item)) {
+        if (drawerToggle?.onOptionsItemSelected(item) == true) {
             return true
         } else {
             when (item.itemId) {

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
-import android.util.Log
 import android.widget.Toast
 
 import org.fourthline.cling.android.AndroidUpnpService
@@ -131,7 +130,7 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity, priv
         } else {
 
             if (isBrowsing) {
-                stopBrowsing = true;
+                stopBrowsing = true
             } else {
 
                 val item = mFolders.pop()
@@ -142,24 +141,24 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity, priv
         return false
     }
 
-    fun moreBrowseRequired( service: Service<*, *>, id: String, fromId: Long) {
+    fun browseRequired(service: Service<*, *>, id: String, fromId: Long) {
 
         if (stopBrowsing) {
             stopBrowsing = false
-            finishedBrowse()
+            browseFinished()
             return
         }
 
         browse(mainActivity, this, mService!!, service, id, fromId)
     }
 
-    fun finishedBrowse() {
+    fun browseFinished() {
 
         isBrowsing = false
         callback.setShowRefreshing(false)
     }
 
-    fun browse(context: Context, handler: ContentDirectoryBrowseHandler, androidUpnpService: AndroidUpnpService, service: Service<*, *>, id: String, firstResult: Long = 0L) {
+    private fun browse(context: Context, handler: ContentDirectoryBrowseHandler, androidUpnpService: AndroidUpnpService, service: Service<*, *>, id: String, firstResult: Long = 0L) {
 
         isBrowsing = true
         mService?.controlPoint?.execute(

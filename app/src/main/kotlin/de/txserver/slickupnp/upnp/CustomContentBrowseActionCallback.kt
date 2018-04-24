@@ -2,7 +2,6 @@ package de.txserver.slickupnp.upnp
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 
 import org.fourthline.cling.android.AndroidUpnpService
 import org.fourthline.cling.model.action.ActionException
@@ -15,7 +14,6 @@ import org.fourthline.cling.support.model.BrowseFlag
 import org.fourthline.cling.support.model.DIDLContent
 import org.fourthline.cling.support.model.DIDLObject
 import org.fourthline.cling.support.model.SortCriterion
-import org.fourthline.cling.support.model.container.Container
 import org.fourthline.cling.support.model.item.Item
 
 import java.net.URI
@@ -30,7 +28,7 @@ class CustomContentBrowseActionCallback @JvmOverloads constructor(private val co
     private val prefs: SharedPreferences
 
     init {
-        prefs = SlickUPnP.instance?.getSharedPref() ?: PreferenceManager.getDefaultSharedPreferences(context)
+        prefs = SlickUPnP.instance.getSharedPref()
     }
 
     private fun createItemModel(item: DIDLObject): ItemModel {
@@ -85,12 +83,12 @@ class CustomContentBrowseActionCallback @JvmOverloads constructor(private val co
 
             totalMatches = java.lang.Long.parseLong(actionInvocation.getOutput("TotalMatches").toString())
 
-            if (firstResult < 9999L && firstResult + items.size < totalMatches) {
+            if (firstResult < 99999L && (firstResult + items.size) < totalMatches) {
 
-                handler.moreBrowseRequired(service, id, firstResult + items.size);
+                handler.browseRequired(service, id, firstResult + items.size);
 
             } else {
-                handler.finishedBrowse()
+                handler.browseFinished()
             }
 
             if (firstResult == 0L) {
@@ -114,6 +112,6 @@ class CustomContentBrowseActionCallback @JvmOverloads constructor(private val co
 
     override fun failure(invocation: ActionInvocation<*>, response: UpnpResponse?, s: String) {
         handler.onDisplayItemsError(createDefaultFailureMessage(invocation, response))
-        handler.finishedBrowse()
+        handler.browseFinished()
     }
 }

@@ -23,11 +23,8 @@ class SettingsActivity : AppCompatActivity() {
         setSupportActionBar(myToolbar)
 
         actionBar = supportActionBar
-        if (actionBar != null) {
-
-            actionBar!!.setDisplayHomeAsUpEnabled(true)
-            actionBar!!.setHomeButtonEnabled(true)
-        }
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeButtonEnabled(true)
 
         // das Fragment anzeigen
         fragmentManager.beginTransaction()
@@ -39,14 +36,10 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setActivityTitle(customText: String?) {
 
-        if (actionBar == null) {
-            return
-        }
-
         if (customText == null) {
-            actionBar!!.title = resources.getString(R.string.menuItem_settings)
+            actionBar?.title = resources.getString(R.string.menuItem_settings)
         } else {
-            actionBar!!.title = customText
+            actionBar?.title = customText
         }
     }
 }

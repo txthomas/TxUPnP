@@ -17,9 +17,8 @@ class SettingsFragment : PreferenceFragment() {
 
         addPreferencesFromResource(R.xml.preferences)
 
-        val appVersionText = (SlickUPnP.instance?.versionName ?: "NaN") + " (build " + (SlickUPnP.instance?.versionCode
-                ?: "NaN") + ")"
+        val appVersionText = SlickUPnP.instance.versionName + " (build " + SlickUPnP.instance.versionCode + ")"
         val aboutVersionText = findPreference("about_version") as EditTextPreference
-        aboutVersionText.summary = SlickUPnP.instance?.getSharedPref()?.getString("about_version", appVersionText) ?: "null"
+        aboutVersionText.summary = SlickUPnP.instance.getSharedPref().getString("about_version", appVersionText)
     }
 }
