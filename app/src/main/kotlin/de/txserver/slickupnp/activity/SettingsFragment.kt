@@ -20,6 +20,6 @@ class SettingsFragment : PreferenceFragment() {
         val appVersionText = (SlickUPnP.instance?.versionName ?: "NaN") + " (build " + (SlickUPnP.instance?.versionCode
                 ?: "NaN") + ")"
         val aboutVersionText = findPreference("about_version") as EditTextPreference
-        aboutVersionText.summary = SlickUPnP.instance!!.getSharedPref().getString("about_version", appVersionText)
+        aboutVersionText.summary = SlickUPnP.instance?.getSharedPref()?.getString("about_version", appVersionText) ?: "null"
     }
 }

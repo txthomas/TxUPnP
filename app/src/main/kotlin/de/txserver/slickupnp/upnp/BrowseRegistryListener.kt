@@ -2,6 +2,7 @@ package de.txserver.slickupnp.upnp
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.util.Log
 
 import org.fourthline.cling.android.AndroidUpnpService
@@ -22,7 +23,7 @@ class BrowseRegistryListener(private val context: Context, private val callbacks
     private val prefs: SharedPreferences
 
     init {
-        prefs = SlickUPnP.instance!!.getSharedPref()
+        prefs = SlickUPnP.instance?.getSharedPref() ?: PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     override fun remoteDeviceDiscoveryStarted(registry: Registry?, device: RemoteDevice?) {

@@ -7,12 +7,11 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 
 import org.fourthline.cling.android.AndroidUpnpService
 import org.fourthline.cling.android.AndroidUpnpServiceImpl
-import org.fourthline.cling.model.meta.Device
-import org.fourthline.cling.model.meta.Service
 
 import java.util.Stack
 
@@ -21,29 +20,42 @@ import de.txserver.slickupnp.activity.MainActivity
 import de.txserver.slickupnp.helper.DeviceModel
 import de.txserver.slickupnp.helper.ItemModel
 import de.txserver.slickupnp.helper.MimeTypeMap
+import org.fourthline.cling.model.meta.Service
+import java.util.ArrayList
 
 
-class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity) {
+class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity, private val callback: ContentDirectoryBrowseCallbacks) : ContentDirectoryBrowseCallbacks {
+
+    private val TAG = ContentDirectoryBrowseHandler::class.java.simpleName;
 
     private val mListener: BrowseRegistryListener
     private var mService: AndroidUpnpService? = null
     private val mFolders = Stack<ItemModel>()
     private var mIsShowingDeviceList: Boolean = true
     private var mCurrentDevice: DeviceModel? = null
+    private var serviceConnectionBound: Boolean
+    private var isBrowsing: Boolean = false
+    private var stopBrowsing: Boolean = false
 
     init {
         mListener = BrowseRegistryListener(mainActivity as Context, mainActivity, mService)
+        serviceConnectionBound = false
     }
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             mService = service as AndroidUpnpService
-            mService?.registry?.addListener(mListener)
 
-            for (device in mService!!.registry.devices)
-                mListener.deviceAdded(device)
+            val tempService: AndroidUpnpService? = mService
 
-            mService?.controlPoint?.search()
+            if (tempService != null) {
+                tempService.registry.addListener(mListener)
+
+                for (device in tempService.registry.devices)
+                    mListener.deviceAdded(device)
+
+                tempService.controlPoint?.search()
+            }
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -59,9 +71,9 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity) {
             if (device.isFullyHydrated) {
                 val conDir = model.contentDirectory
 
-                if (conDir != null)
-                    mService?.controlPoint?.execute(
-                            CustomContentBrowseActionCallback(mainActivity, mainActivity, mService!!, conDir, "0"))
+                if (conDir != null) {
+                    browse(mainActivity, this, mService!!, conDir, "0")
+                }
 
                 mainActivity.onDisplayDirectories()
 
@@ -82,9 +94,7 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity) {
                 else if (mFolders.peek().id != model.id)
                     mFolders.push(model)
 
-                mService?.controlPoint?.execute(
-                        CustomContentBrowseActionCallback(mainActivity, mainActivity, mService!!, model.service,
-                                model.id))
+                browse(mainActivity, this, mService!!, model.service, model.id)
 
             } else {
                 mainActivity.setShowRefreshing(false)
@@ -108,7 +118,8 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity) {
         }
     }
 
-    fun goBack(): Boolean? {
+    fun goBack(): Boolean {
+
         if (mFolders.empty()) {
             if (!mIsShowingDeviceList) {
                 mIsShowingDeviceList = true
@@ -118,14 +129,41 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity) {
                 return true
             }
         } else {
-            val item = mFolders.pop()
 
-            mService?.controlPoint?.execute(
-                    CustomContentBrowseActionCallback(mainActivity, mainActivity, mService!!, item.service,
-                            item.container!!.parentID))
+            if (isBrowsing) {
+                stopBrowsing = true;
+            } else {
+
+                val item = mFolders.pop()
+                browse(mainActivity, this, mService!!, item.service, item.container!!.parentID)
+            }
         }
 
         return false
+    }
+
+    fun moreBrowseRequired( service: Service<*, *>, id: String, fromId: Long) {
+
+        if (stopBrowsing) {
+            stopBrowsing = false
+            finishedBrowse()
+            return
+        }
+
+        browse(mainActivity, this, mService!!, service, id, fromId)
+    }
+
+    fun finishedBrowse() {
+
+        isBrowsing = false
+        callback.setShowRefreshing(false)
+    }
+
+    fun browse(context: Context, handler: ContentDirectoryBrowseHandler, androidUpnpService: AndroidUpnpService, service: Service<*, *>, id: String, firstResult: Long = 0L) {
+
+        isBrowsing = true
+        mService?.controlPoint?.execute(
+                CustomContentBrowseActionCallback(context, handler, androidUpnpService, service, id, firstResult))
     }
 
     fun refreshDevices() {
@@ -157,39 +195,70 @@ class ContentDirectoryBrowseHandler(private val mainActivity: MainActivity) {
             if (!mFolders.empty()) {
                 val item = mFolders.peek() ?: return
 
-                mService?.controlPoint?.execute(
-                        CustomContentBrowseActionCallback(mainActivity, mainActivity, mService!!, item.service,
-                                item.id))
+                browse(mainActivity, this, mService!!, item.service, item.id)
             } else {
                 if (mCurrentDevice != null) {
                     val service = mCurrentDevice?.contentDirectory
                     if (service != null)
-                        mService?.controlPoint?.execute(
-                                CustomContentBrowseActionCallback(mainActivity, mainActivity, mService!!, service, "0"))
+                        browse(mainActivity, this, mService!!, service, "0")
                 }
             }
         }
     }
 
-    fun bindServiceConnection(): Boolean? {
-//        if (mainActivity == null)
-//            return false
+    fun bindServiceConnection() {
 
+        serviceConnectionBound = true
         mainActivity.bindService(
                 Intent(mainActivity, AndroidUpnpServiceImpl::class.java),
                 serviceConnection, Context.BIND_AUTO_CREATE)
-
-        return true
     }
 
-    fun unbindServiceConnection(): Boolean? {
-        if (mService != null)
-            mService?.registry?.removeListener(mListener)
+    fun unbindServiceConnection() {
 
-//        if (mainActivity == null)
-//            return false
-
+        serviceConnectionBound = false
+        mService?.registry?.removeListener(mListener)
         mainActivity.unbindService(serviceConnection)
-        return true
+    }
+
+    fun isServiceConnectionBound() : Boolean {
+
+        return serviceConnectionBound
+    }
+
+    override fun setShowRefreshing(show: Boolean) {
+        callback.setShowRefreshing(show)
+    }
+
+    override fun onDisplayDevices() {
+        callback.onDisplayDevices()
+    }
+
+    override fun onDisplayDirectories() {
+        callback.onDisplayDirectories()
+    }
+
+    override fun onDisplayItems(items: ArrayList<ItemModel>) {
+
+        if (stopBrowsing) return
+        callback.onDisplayItems(items)
+    }
+
+    override fun onDisplayAddItems(items: ArrayList<ItemModel>) {
+
+        if (stopBrowsing) return
+        callback.onDisplayAddItems(items)
+    }
+
+    override fun onDisplayItemsError(error: String) {
+        callback.onDisplayItemsError(error)
+    }
+
+    override fun onDeviceAdded(device: DeviceModel) {
+        callback.onDeviceAdded(device)
+    }
+
+    override fun onDeviceRemoved(device: DeviceModel) {
+        callback.onDeviceRemoved(device)
     }
 }

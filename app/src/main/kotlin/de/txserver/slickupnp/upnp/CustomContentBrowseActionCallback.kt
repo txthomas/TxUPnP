@@ -26,11 +26,11 @@ import de.txserver.slickupnp.app.SlickUPnP
 import de.txserver.slickupnp.helper.ItemModel
 import de.txserver.slickupnp.helper.MimeTypeMap
 
-class CustomContentBrowseActionCallback @JvmOverloads constructor(private val context: Context, private val callbacks: ContentDirectoryBrowseCallbacks, private val androidUpnpService: AndroidUpnpService, private val service: Service<*, *>, private val id: String, private val firstResult: Long = 0L) : Browse(service, id, BrowseFlag.DIRECT_CHILDREN, "*", firstResult, 99999L, SortCriterion(true, "dc:title")) {
+class CustomContentBrowseActionCallback @JvmOverloads constructor(private val context: Context, private val handler: ContentDirectoryBrowseHandler, private val androidUpnpService: AndroidUpnpService, private val service: Service<*, *>, private val id: String, private val firstResult: Long = 0L) : Browse(service, id, BrowseFlag.DIRECT_CHILDREN, "*", firstResult, 99999L, SortCriterion(true, "dc:title")) {
     private val prefs: SharedPreferences
 
     init {
-        prefs = SlickUPnP.instance!!.getSharedPref()
+        prefs = SlickUPnP.instance?.getSharedPref() ?: PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     private fun createItemModel(item: DIDLObject): ItemModel {
@@ -74,7 +74,7 @@ class CustomContentBrowseActionCallback @JvmOverloads constructor(private val co
     override fun received(actionInvocation: ActionInvocation<*>, didl: DIDLContent) {
 
         val items = ArrayList<ItemModel>()
-        val totalMatches: Long?
+        val totalMatches: Long
 
         try {
             for (childContainer in didl.containers)
@@ -87,19 +87,16 @@ class CustomContentBrowseActionCallback @JvmOverloads constructor(private val co
 
             if (firstResult < 9999L && firstResult + items.size < totalMatches) {
 
-                androidUpnpService.controlPoint.execute(
-                        CustomContentBrowseActionCallback(context, callbacks, androidUpnpService, service,
-                                id, firstResult + items.size))
-
+                handler.moreBrowseRequired(service, id, firstResult + items.size);
 
             } else {
-                callbacks.setShowRefreshing(false)
+                handler.finishedBrowse()
             }
 
             if (firstResult == 0L) {
-                callbacks.onDisplayItems(items)
+                handler.onDisplayItems(items)
             } else {
-                callbacks.onDisplayAddItems(items)
+                handler.onDisplayAddItems(items)
             }
 
         } catch (ex: Exception) {
@@ -116,7 +113,7 @@ class CustomContentBrowseActionCallback @JvmOverloads constructor(private val co
     }
 
     override fun failure(invocation: ActionInvocation<*>, response: UpnpResponse?, s: String) {
-        callbacks.onDisplayItemsError(createDefaultFailureMessage(invocation, response))
-        callbacks.setShowRefreshing(false)
+        handler.onDisplayItemsError(createDefaultFailureMessage(invocation, response))
+        handler.finishedBrowse()
     }
 }

@@ -3,6 +3,7 @@ package de.txserver.slickupnp.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import java.util.ArrayList;
 
 import de.txserver.slickupnp.R;
+import de.txserver.slickupnp.app.SlickUPnP;
 
 public class CustomListAdapter extends ArrayAdapter<CustomListItem>
 {

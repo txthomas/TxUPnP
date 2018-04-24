@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
 
     private val TAG = MainActivity::class.java.simpleName;
 
-    private var actionBar: ActionBar? = null;
-    private var navigationItemArrayList: ArrayList<NavigationItem>? = null;
+    private var actionBar: ActionBar? = null
+    private var navigationItemArrayList: ArrayList<NavigationItem> = ArrayList()
 
     private var drawerLayout: DrawerLayout? = null
     private var drawerPane: RelativeLayout? = null
@@ -51,11 +51,11 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
 
     private var listView: ListView? = null
 
-    private var contentDirectoryBrowseHandler: ContentDirectoryBrowseHandler? = null
-    private var mDeviceList: ArrayList<CustomListItem>? = null
-    private var mDeviceListAdapter: ArrayAdapter<CustomListItem>? = null
-    private var mItemList: ArrayList<CustomListItem>? = null
-    private var mItemListAdapter: ArrayAdapter<CustomListItem>? = null
+    private lateinit var contentDirectoryBrowseHandler: ContentDirectoryBrowseHandler
+    private var mDeviceList: ArrayList<CustomListItem>? = ArrayList()
+    private lateinit var mDeviceListAdapter: ArrayAdapter<CustomListItem>
+    private var mItemList: ArrayList<CustomListItem>? = ArrayList()
+    private lateinit var mItemListAdapter: ArrayAdapter<CustomListItem>
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -71,15 +71,15 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
                     WifiManager.WIFI_STATE_ENABLED -> {
                         wifi_warning.visibility = View.GONE
 
-                        contentDirectoryBrowseHandler?.let {
+                        contentDirectoryBrowseHandler.let {
                             it.refreshDevices()
                             it.refreshCurrent()
                         }
                     }
                     WifiManager.WIFI_STATE_DISABLED -> {
                         wifi_warning.visibility = View.VISIBLE
-                        mDeviceListAdapter?.clear()
-                        mItemListAdapter?.clear()
+                        mDeviceListAdapter.clear()
+                        mItemListAdapter.clear()
                     }
                     WifiManager.WIFI_STATE_UNKNOWN -> wifi_warning.visibility = View.VISIBLE
                 }
@@ -102,9 +102,7 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
             it.setHomeButtonEnabled(true)
         }
 
-        navigationItemArrayList = ArrayList()
-
-        navigationItemArrayList?.let {
+        navigationItemArrayList.let {
             it.add(NavigationItem(resources.getString(R.string.menuItem_settings), resources.getString(R.string.menuItemText_settings), R.drawable.ic_settings_black_24px, R.layout.activity_settings))
             it.add(NavigationItem(resources.getString(R.string.menuItem_about), resources.getString(R.string.menuItemText_about), R.drawable.ic_info_outline_black_24px, R.layout.activity_about))
             it.add(NavigationItem(resources.getString(R.string.menuItem_exit), resources.getString(R.string.menuItemText_exit), R.drawable.ic_exit_to_app_black_24px, R.layout.activity_main))
@@ -141,11 +139,7 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
             it.setOnRefreshListener { refreshList() }
         }
 
-
-        mDeviceList = ArrayList()
         mDeviceListAdapter = CustomListAdapter(this, mDeviceList)
-
-        mItemList = ArrayList()
         mItemListAdapter = CustomListAdapter(this, mItemList)
 
         listView = findViewById(R.id.list) as ListView
@@ -153,15 +147,16 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
 
         listView?.onItemClickListener = AdapterView.OnItemClickListener { adapter, v, position, arg3 ->
             setShowRefreshing(true)
-            contentDirectoryBrowseHandler?.navigateTo(adapter.getItemAtPosition(position))
+            contentDirectoryBrowseHandler.navigateTo(adapter.getItemAtPosition(position))
         }
 
-        if (contentDirectoryBrowseHandler != null) {
-            contentDirectoryBrowseHandler?.refreshDevices()
-            contentDirectoryBrowseHandler?.refreshCurrent()
+        contentDirectoryBrowseHandler = ContentDirectoryBrowseHandler(this, this)
+
+        if (contentDirectoryBrowseHandler.isServiceConnectionBound()) {
+            contentDirectoryBrowseHandler.refreshDevices()
+            contentDirectoryBrowseHandler.refreshCurrent()
         } else {
-            contentDirectoryBrowseHandler = ContentDirectoryBrowseHandler(this)
-            contentDirectoryBrowseHandler?.bindServiceConnection()
+            contentDirectoryBrowseHandler.bindServiceConnection()
         }
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
@@ -199,27 +194,23 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
     public override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)
-        contentDirectoryBrowseHandler?.unbindServiceConnection()
+        contentDirectoryBrowseHandler.unbindServiceConnection()
     }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String) {
         refreshList()
     }
-
+/*
     private fun setActivityTitle() {
 
-        if (actionBar == null) {
-            return
-        }
-
-        actionBar?.setTitle(resources.getString(R.string.app_name))
+        actionBar?.title = resources.getString(R.string.app_name)
     }
-
+*/
     private fun selectItemFromDrawer(position: Int) {
 
         var intent: Intent? = null
 
-        when (navigationItemArrayList!![position].activity) {
+        when (navigationItemArrayList[position].activity) {
 
             R.layout.activity_settings -> intent = Intent(this, SettingsActivity::class.java)
             R.layout.activity_about -> intent = Intent(this, AboutActivity::class.java)
@@ -241,7 +232,7 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
 
     private fun refreshList() {
         setShowRefreshing(true)
-        contentDirectoryBrowseHandler?.refreshCurrent()
+        contentDirectoryBrowseHandler.refreshCurrent()
     }
 
     override fun setShowRefreshing(show: Boolean) {
@@ -249,14 +240,14 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
     }
 
     override fun onBackPressed() {
-        if (contentDirectoryBrowseHandler?.goBack()!!)
+        if (contentDirectoryBrowseHandler.goBack())
             super.onBackPressed()
     }
 
     override fun onDisplayDevices() {
         runOnUiThread {
             unsetListSelection()
-            mDeviceListAdapter?.clear()
+            mDeviceListAdapter.clear()
             listView?.adapter = mDeviceListAdapter
             setShowRefreshing(false)
         }
@@ -266,7 +257,7 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
         runOnUiThread {
             unsetListSelection()
             mItemList?.clear()
-            mItemListAdapter?.clear()
+            mItemListAdapter.clear()
             listView?.adapter = mItemListAdapter
             setShowRefreshing(false)
         }
@@ -277,21 +268,21 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
             unsetListSelection()
             mItemList?.clear()
             mItemList?.addAll(items)
-            mItemListAdapter?.notifyDataSetChanged()
+            mItemListAdapter.notifyDataSetChanged()
         }
     }
 
     override fun onDisplayAddItems(items: ArrayList<ItemModel>) {
         runOnUiThread {
             mItemList?.addAll(items)
-            mItemListAdapter?.notifyDataSetChanged()
+            mItemListAdapter.notifyDataSetChanged()
         }
     }
 
     override fun onDisplayItemsError(error: String) {
         runOnUiThread {
-            mItemListAdapter?.clear()
-            mItemListAdapter?.add(CustomListItem(
+            mItemListAdapter.clear()
+            mItemListAdapter.add(CustomListItem(
                     R.drawable.ic_alert_black_24px,
                     resources.getString(R.string.info_errorlist_folders),
                     error))
@@ -300,17 +291,18 @@ class MainActivity : AppCompatActivity(), ContentDirectoryBrowseCallbacks, Share
 
     override fun onDeviceAdded(device: DeviceModel) {
         runOnUiThread {
-            val position = mDeviceListAdapter?.getPosition(device) ?: 0
+            val position = mDeviceListAdapter.getPosition(device)
+
             if (position >= 0) {
-                mDeviceListAdapter?.remove(device)
-                mDeviceListAdapter?.insert(device, position)
+                mDeviceListAdapter.remove(device)
+                mDeviceListAdapter.insert(device, position)
             } else {
-                mDeviceListAdapter?.add(device)
+                mDeviceListAdapter.add(device)
             }
         }
     }
 
     override fun onDeviceRemoved(device: DeviceModel) {
-        runOnUiThread { mDeviceListAdapter?.remove(device) }
+        runOnUiThread { mDeviceListAdapter.remove(device) }
     }
 }
