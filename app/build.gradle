@@ -6,40 +6,70 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-    signingConfigs {
-        config {
-            keyAlias '******'
-            keyPassword '******'
-            storeFile file('******')
-            storePassword '******'
-        }
-    }
+
     compileSdkVersion 25
     defaultConfig {
         applicationId "de.txserver.slickupnp"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 18031703
-        versionName "1.0.3"
+        versionCode 18042301
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
+    packagingOptions {
+        exclude 'META-INF/beans.xml'
+    }
+
+    productFlavors {
+    }
+
+    buildToolsVersion '27.0.3'
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    signingConfigs {
+        main {
+            storePassword '******'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.main
         }
         debug {
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.main
         }
     }
-    packagingOptions {
-        exclude 'META-INF/beans.xml'
+
+    if (project.hasProperty("SlickUPNP.signing") && file(project.property("SlickUPNP.signing") + ".properties").exists()) {
+
+        Properties props = new Properties()
+        props.load(new FileInputStream("/Users/tx/Entwicklung/Android/SlickUPNP_signing/signing.properties"))
+
+        if (props!=null && props.containsKey('keystore') && props.containsKey('keystore.password') &&
+                props.containsKey('keystore.key.alias') && props.containsKey('keystore.key.password')) {
+
+//            throw new GradleException("test: " + props['keystore.key.alias'] + " | " + props['keystore.key.password'] + " | " + file(props['keystore']))
+
+            android.signingConfigs.main.storeFile = file(props['keystore'])
+            android.signingConfigs.main.storePassword = props['keystore.password']
+            android.signingConfigs.main.keyAlias = props['keystore.key.alias']
+            android.signingConfigs.main.keyPassword = props['keystore.key.password']
+        } else {
+            android.buildTypes.release.signingConfig = null
+//            throw new GradleException("signing.properties found but some entries are missing")
+        }
+    } else {
+        android.buildTypes.release.signingConfig = null
+//        throw new GradleException("signing.properties not found")
     }
-    productFlavors {
-    }
-    buildToolsVersion '27.0.3'
 }
 
 repositories {
