@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.helper;
+package de.txserver.txupnp.helper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.txserver.slickupnp.R;
+import de.txserver.txupnp.R;
 
 public class DrawerListAdapter extends BaseAdapter {
 

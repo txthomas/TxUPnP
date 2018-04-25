@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package de.txserver.slickupnp.helper;
+package de.txserver.txupnp.helper;
 
 import java.util.HashMap;
 import java.util.regex.Pattern;

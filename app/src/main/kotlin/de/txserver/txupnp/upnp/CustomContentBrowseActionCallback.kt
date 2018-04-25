@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.upnp
+package de.txserver.txupnp.upnp
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -19,16 +19,16 @@ import org.fourthline.cling.support.model.item.Item
 import java.net.URI
 import java.util.ArrayList
 
-import de.txserver.slickupnp.R
-import de.txserver.slickupnp.app.SlickUPnP
-import de.txserver.slickupnp.helper.ItemModel
-import de.txserver.slickupnp.helper.MimeTypeMap
+import de.txserver.txupnp.R
+import de.txserver.txupnp.app.TxUPnP
+import de.txserver.txupnp.helper.ItemModel
+import de.txserver.txupnp.helper.MimeTypeMap
 
 class CustomContentBrowseActionCallback @JvmOverloads constructor(private val context: Context, private val handler: ContentDirectoryBrowseHandler, private val androidUpnpService: AndroidUpnpService, private val service: Service<*, *>, private val id: String, private val firstResult: Long = 0L) : Browse(service, id, BrowseFlag.DIRECT_CHILDREN, "*", firstResult, 99999L, SortCriterion(true, "dc:title")) {
     private val prefs: SharedPreferences
 
     init {
-        prefs = SlickUPnP.instance.getSharedPref()
+        prefs = TxUPnP.instance.getSharedPref()
     }
 
     private fun createItemModel(item: DIDLObject): ItemModel {

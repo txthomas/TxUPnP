@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.app
+package de.txserver.txupnp.app
 
 import android.app.Activity
 import android.app.Application

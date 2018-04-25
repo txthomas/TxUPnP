@@ -1,18 +1,16 @@
-package de.txserver.slickupnp.app
+package de.txserver.txupnp.app
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.preference.EditTextPreference
 import android.preference.PreferenceManager
 import android.util.Log
 
-import de.txserver.slickupnp.R
+import de.txserver.txupnp.R
 
-class SlickUPnP : Application() {
+class TxUPnP : Application() {
 
-    var TAG = SlickUPnP::class.java.simpleName
+    var TAG = TxUPnP::class.java.simpleName
 
     private var sharedPref: SharedPreferences? = null
 
@@ -73,7 +71,7 @@ class SlickUPnP : Application() {
 
     companion object {
         @get:Synchronized
-        lateinit var instance: SlickUPnP
+        lateinit var instance: TxUPnP
             private set
     }
 }

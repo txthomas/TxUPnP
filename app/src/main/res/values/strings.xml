@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SlickUPnP</string>
+    <string name="app_name">TxUPnP</string>
     <string name="app_version" translatable="false">1.0.1</string>
     <string name="placeholder" translatable="false">Placeholder</string>
     <string name="action_refresh">Refresh</string>
@@ -15,7 +15,7 @@
     <string name="menuItemText_settings">Customize your preferences</string>
 
     <string name="menuItem_about">About</string>
-    <string name="menuItemText_about">All about SlickUPnP</string>
+    <string name="menuItemText_about">All about TxUPnP</string>
 
     <string name="menuItem_exit">Exit</string>
     <string name="menuItemText_exit">Exit the App</string>

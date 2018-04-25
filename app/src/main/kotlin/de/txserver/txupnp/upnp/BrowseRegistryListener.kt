@@ -1,21 +1,18 @@
-package de.txserver.slickupnp.upnp
+package de.txserver.txupnp.upnp
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import android.util.Log
 
 import org.fourthline.cling.android.AndroidUpnpService
 import org.fourthline.cling.model.meta.Device
 import org.fourthline.cling.model.meta.LocalDevice
 import org.fourthline.cling.model.meta.RemoteDevice
-import org.fourthline.cling.model.meta.Service
 import org.fourthline.cling.registry.DefaultRegistryListener
 import org.fourthline.cling.registry.Registry
 
-import de.txserver.slickupnp.R
-import de.txserver.slickupnp.app.SlickUPnP
-import de.txserver.slickupnp.helper.DeviceModel
+import de.txserver.txupnp.R
+import de.txserver.txupnp.app.TxUPnP
+import de.txserver.txupnp.helper.DeviceModel
 
 class BrowseRegistryListener(private val context: Context, private val callbacks: ContentDirectoryBrowseCallbacks, private val androidUpnpService: AndroidUpnpService?) : DefaultRegistryListener() {
 
@@ -23,7 +20,7 @@ class BrowseRegistryListener(private val context: Context, private val callbacks
     private val prefs: SharedPreferences
 
     init {
-        prefs = SlickUPnP.instance.getSharedPref()
+        prefs = TxUPnP.instance.getSharedPref()
     }
 
     override fun remoteDeviceDiscoveryStarted(registry: Registry?, device: RemoteDevice?) {

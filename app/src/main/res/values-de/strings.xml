@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SlickUPnP</string>
+    <string name="app_name">TxUPnP</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="action_settings">Einstellungen</string>
 
@@ -13,7 +13,7 @@
     <string name="menuItemText_settings">Passe die Einstellungen an</string>
 
     <string name="menuItem_about">Über</string>
-    <string name="menuItemText_about">Alles über TxPush</string>
+    <string name="menuItemText_about">Alles über TxUPnP</string>
 
     <string name="menuItem_exit">Beenden</string>
     <string name="menuItemText_exit">Beende die App</string>

@@ -1,9 +1,9 @@
-package de.txserver.slickupnp.upnp
+package de.txserver.txupnp.upnp
 
 import java.util.ArrayList
 
-import de.txserver.slickupnp.helper.DeviceModel
-import de.txserver.slickupnp.helper.ItemModel
+import de.txserver.txupnp.helper.DeviceModel
+import de.txserver.txupnp.helper.ItemModel
 
 interface ContentDirectoryBrowseCallbacks {
 

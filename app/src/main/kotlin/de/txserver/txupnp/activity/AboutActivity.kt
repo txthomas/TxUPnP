@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.activity
+package de.txserver.txupnp.activity
 
 import android.os.Bundle
 import android.support.v7.app.ActionBar
@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.TextView
 
-import de.txserver.slickupnp.R
-import de.txserver.slickupnp.app.SlickUPnP
+import de.txserver.txupnp.R
+import de.txserver.txupnp.app.TxUPnP
 
 class AboutActivity : AppCompatActivity() {
 
@@ -35,7 +35,7 @@ class AboutActivity : AppCompatActivity() {
 
         setActivityTitle()
 
-        val appVersionText = resources.getString(R.string.app_name) + ": " + SlickUPnP.instance.versionName + " (build " + SlickUPnP.instance.versionCode + ")"
+        val appVersionText = resources.getString(R.string.app_name) + ": " + TxUPnP.instance.versionName + " (build " + TxUPnP.instance.versionCode + ")"
         aboutVersionTextView = findViewById(R.id.aboutVersion_text) as TextView
         aboutVersionTextView!!.text = appVersionText
 

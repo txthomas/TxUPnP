@@ -10,11 +10,11 @@ android {
     buildToolsVersion '27.0.3'
     compileSdkVersion 25
     defaultConfig {
-        applicationId "de.txserver.slickupnp"
+        applicationId "de.txserver.txupnp"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 18042402
-        versionName "1.0.4"
+        versionCode 18042501
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -46,10 +46,10 @@ android {
         }
     }
 
-    if (project.hasProperty("SlickUPNP.signing") && file(project.property("SlickUPNP.signing") + ".properties").exists()) {
+    if (project.hasProperty("TxUPnP.signing") && file(project.property("TxUPnP.signing") + ".properties").exists()) {
 
         Properties props = new Properties()
-        props.load(new FileInputStream(file(project.property("SlickUPNP.signing") + ".properties")))
+        props.load(new FileInputStream(file(project.property("TxUPnP.signing") + ".properties")))
 
         if (props!=null && props.containsKey('keystore') && props.containsKey('keystore.password') &&
                 props.containsKey('keystore.key.alias') && props.containsKey('keystore.key.password')) {

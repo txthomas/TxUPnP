@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.upnp
+package de.txserver.txupnp.upnp
 
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -14,11 +14,11 @@ import org.fourthline.cling.android.AndroidUpnpServiceImpl
 
 import java.util.Stack
 
-import de.txserver.slickupnp.R
-import de.txserver.slickupnp.activity.MainActivity
-import de.txserver.slickupnp.helper.DeviceModel
-import de.txserver.slickupnp.helper.ItemModel
-import de.txserver.slickupnp.helper.MimeTypeMap
+import de.txserver.txupnp.R
+import de.txserver.txupnp.activity.MainActivity
+import de.txserver.txupnp.helper.DeviceModel
+import de.txserver.txupnp.helper.ItemModel
+import de.txserver.txupnp.helper.MimeTypeMap
 import org.fourthline.cling.model.meta.Service
 import java.util.ArrayList
 

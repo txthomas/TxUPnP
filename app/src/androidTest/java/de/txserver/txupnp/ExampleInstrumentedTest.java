@@ -1,4 +1,4 @@
-package de.txserver.slickupnp;
+package de.txserver.txupnp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

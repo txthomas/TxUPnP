@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.helper;
+package de.txserver.txupnp.helper;
 
 import android.content.res.Resources;
 import android.net.Uri;
@@ -11,7 +11,7 @@ import org.fourthline.cling.support.model.item.Item;
 
 import java.util.List;
 
-import de.txserver.slickupnp.R;
+import de.txserver.txupnp.R;
 
 public class ItemModel extends CustomListItem {
 

@@ -1,4 +1,4 @@
-package de.txserver.slickupnp.activity
+package de.txserver.txupnp.activity
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 
-import de.txserver.slickupnp.R
+import de.txserver.txupnp.R
 
 class SettingsActivity : AppCompatActivity() {
 
